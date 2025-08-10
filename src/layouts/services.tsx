@@ -1,5 +1,6 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
+import { i } from "framer-motion/client";
 import { TbApi, TbDatabase, TbGlobe, TbPencil, TbWorld } from "react-icons/tb";
 
 const servicesIOffer = [
@@ -114,7 +115,7 @@ const Services = () => {
                           fontSize={64}
                           fontWeight={600}
                           component={"span"}
-                          color="primary"
+                          color={index % 2 ? "primary" : "secondary"}
                         >
                           {service.title?.charAt(0).toUpperCase()}
                         </Typography>

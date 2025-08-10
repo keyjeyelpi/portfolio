@@ -5,6 +5,9 @@ import chroma from "chroma-js";
 import { useEffect, useState } from "react";
 import { useMediaQuery } from "@mui/material";
 
+import darkLogo from "../assets/images/logo/black.png";
+import lightLogo from "../assets/images/logo/white.png";
+
 export const useBreakpoint = () => {
   const theme = useTheme();
 
@@ -54,6 +57,19 @@ export const useCurrentThemeMode = (): {
     // This callback will fire if the perferred color scheme changes without a reload
     mq.addEventListener("change", (evt) => setIsDark(evt.matches));
   }, []);
+
+  useEffect(() => {
+    const link =
+      document.querySelector<HTMLLinkElement>("link[rel~='icon']") ||
+      document.createElement("link");
+
+    link.rel = "icon";
+    link.href = darkMode ? lightLogo : darkLogo;
+
+    if (!link.parentNode) {
+      document.head.appendChild(link);
+    }
+  }, [darkMode]);
 
   return { darkMode, textColor, bgColor };
 };

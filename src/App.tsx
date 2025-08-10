@@ -4,6 +4,7 @@ import theme from "./assets/theme.tsx";
 import Header from "./components/header";
 import Hero from "./layouts/hero.tsx";
 import Services from "./layouts/services.tsx";
+import Experience from "./layouts/experience.tsx";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Header />
       <Hero />
       <Services />
+      <Experience />
     </ThemeProvider>
   );
 };
