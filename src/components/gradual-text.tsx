@@ -23,7 +23,7 @@ const GradualSpacing = ({
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
-  const { breakpoint, bpOrder } = useBreakpoint();
+  const { breakpoint } = useBreakpoint();
 
   return (
     <Stack

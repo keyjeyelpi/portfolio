@@ -1,7 +1,6 @@
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
-import { i } from "framer-motion/client";
-import { TbApi, TbDatabase, TbGlobe, TbPencil, TbWorld } from "react-icons/tb";
+import { TbApi, TbDatabase, TbGlobe, TbPencil } from "react-icons/tb";
 
 const servicesIOffer = [
   {
