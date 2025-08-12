@@ -5,6 +5,7 @@ import Header from "./components/header";
 import Hero from "./layouts/hero.tsx";
 import Services from "./layouts/services.tsx";
 import Experience from "./layouts/experience.tsx";
+import TechStack from "./layouts/tech-stack.tsx";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
       <Hero />
       <Services />
       <Experience />
+      <TechStack />
     </ThemeProvider>
   );
 };

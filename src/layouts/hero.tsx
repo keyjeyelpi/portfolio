@@ -4,10 +4,12 @@ import profileImage from "../assets/images/profile-picture.png";
 import arrow from "../assets/images/arrow.png";
 import GradualSpacing from "../components/gradual-text";
 import Typing from "../components/typing-text";
+import Marquee from "../components/marquee";
 
 const Hero = () => {
   return (
     <Stack
+      id="hero"
       component={motion.div}
       initial={{ opacity: 0, y: -100 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -21,7 +23,7 @@ const Hero = () => {
         p: { md: 10 },
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Stack
           gap={2}
           direction={{ xs: "column", md: "row" }}
@@ -111,10 +113,10 @@ const Hero = () => {
               sx={{
                 maxWidth: 400,
                 textAlign: { xs: "start", md: "end" },
-                fontSize: 24,
+                fontSize: 20,
               }}
             >
-              I’m a software engineer passionate about creating impactful
+              I'm a software engineer passionate about creating impactful
               solutions. Skilled in full-stack development, from{" "}
               <Typography
                 component="span"
@@ -148,6 +150,30 @@ const Hero = () => {
           </Stack>
         </Stack>
       </Container>
+      <Stack
+        sx={{
+          position: "absolute",
+          left: 120,
+          bottom: 0,
+          transform: "rotate(-90deg)",
+          transformOrigin: "left bottom",
+          opacity: 0.1,
+          zIndex: -1,
+          maxWidth: "100dvh",
+        }}
+      >
+        <Marquee>
+          <Typing
+            text="KEYJEYELPI"
+            sx={{
+              fontSize: "10rem",
+              letterSpacing: "-0.02em",
+              lineHeight: { xs: "2rem", md: "5rem" },
+              textTransform: "uppercase",
+            }}
+          />
+        </Marquee>
+      </Stack>
     </Stack>
   );
 };

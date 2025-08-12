@@ -159,6 +159,10 @@ const Experience = () => {
                           component={motion.div}
                           direction="row"
                           gap={4}
+                          whileHover={{
+                            scale: 1.05,
+                            zIndex: 1,
+                          }}
                           sx={{
                             bgcolor: "background.default",
                             border: "solid 1px",

@@ -54,7 +54,7 @@ export const ColorPicker = ({
   useEffect(() => {
     const handleChangeColor = setTimeout(() => {
       setColor(currentColor);
-    }, 1000);
+    }, 500);
 
     return () => {
       clearTimeout(handleChangeColor);
@@ -142,7 +142,6 @@ const ThemeToggle = () => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
 
   return (
     <>
@@ -161,7 +160,6 @@ const ThemeToggle = () => {
         )}
       </IconButton>
       <Popover
-        id={id}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}

@@ -16,7 +16,7 @@ const servicesIOffer = [
   },
   {
     icon: <TbDatabase size={36} />,
-    title: "Database Design & Optimization",
+    title: "Database Management",
     description:
       "Designing efficient database schemas and optimizing queries for performance.",
   },
@@ -30,10 +30,11 @@ const servicesIOffer = [
 const Services = () => {
   return (
     <Stack
+      id="services"
       component={motion.div}
       initial={{ opacity: 0, y: -100 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.5 }}
+      viewport={{ once: true }}
       transition={{ duration: 2 }}
       justifyContent="center"
       alignItems="center"
@@ -44,7 +45,7 @@ const Services = () => {
         bgcolor: "background.50",
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="lg">
         <Stack gap={2}>
           <Stack
             gap={{ xs: 1, md: 2 }}
@@ -59,6 +60,9 @@ const Services = () => {
               fontWeight={700}
               textAlign={{ xs: "left", md: "right" }}
               textTransform={"uppercase"}
+              sx={{
+                maxWidth: { md: 500 },
+              }}
             >
               Digital Services{" "}
               <Typography
@@ -108,10 +112,10 @@ const Services = () => {
                   >
                     <Stack direction="row" alignItems="center" gap={2}>
                       <Box sx={{ height: 36, width: 36 }}>{service.icon}</Box>
-                      <Typography variant="h5" fontSize={36} fontWeight={600}>
+                      <Typography variant="h5" fontSize="2rem" fontWeight={600}>
                         <Typography
                           variant="h5"
-                          fontSize={64}
+                          fontSize="2rem"
                           fontWeight={600}
                           component={"span"}
                           color={index % 2 ? "primary" : "secondary"}
