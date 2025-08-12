@@ -145,7 +145,7 @@ const Hero = () => {
               >
                 View Portfolio
               </Button>
-              <Button variant="contained">Download Resume</Button>
+              <Button variant="contained">Download CV</Button>
             </Stack>
           </Stack>
         </Stack>

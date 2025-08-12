@@ -25,7 +25,15 @@ const urls = [
   },
   {
     title: "Experience",
-    link: "experience",
+    link: "projects",
+  },
+  {
+    title: "Tech Stack",
+    link: "tech-stack",
+  },
+  {
+    title: "Feedback",
+    link: "feedback",
   },
 ];
 
