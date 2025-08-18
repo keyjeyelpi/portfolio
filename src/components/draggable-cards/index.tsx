@@ -1,4 +1,4 @@
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMeasurePosition } from "./useMeasurePosition";
 import {
@@ -9,7 +9,7 @@ import {
   Typography,
   type SxProps,
 } from "@mui/material";
-import { TbDots } from "react-icons/tb";
+import { TbDots, TbX } from "react-icons/tb";
 
 export interface CardProps {
   id: string;
@@ -30,6 +30,9 @@ interface DraggableCardProps {
   padding?: number;
   turnDragOff?: boolean;
   cardSx?: SxProps;
+  onClick?: () => void;
+  fullScreen?: boolean;
+  removeFullScreen?: () => void;
 }
 
 export const DraggableCardContainer = ({
@@ -52,9 +55,8 @@ export const DraggableCardContainer = ({
       sx={{
         height: "100%",
         width: "100%",
-        gridTemplateColumns: `repeat(${column}, ${
-          customGridTemplateColumns || "1fr"
-        })`,
+        gridTemplateColumns: `repeat(${column}, ${customGridTemplateColumns || "1fr"
+          })`,
         gridTemplateRows: `repeat(${row}, ${customGridTemplateRows || "1fr"})`,
         gap,
       }}
@@ -73,10 +75,29 @@ const DraggableCard = ({
   padding,
   turnDragOff,
   cardSx,
+  onClick,
+  fullScreen,
+  removeFullScreen
 }: DraggableCardProps) => {
   const [isDragging, setDragging] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
 
   const ref = useMeasurePosition((pos) => updatePosition(i, pos));
+
+  useEffect(() => {
+    if (!fullScreen) {
+      document.body.style.overflow = "";
+      return;
+    }
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+
+  }, [fullScreen])
+
+
 
   return (
     <Card
@@ -85,17 +106,40 @@ const DraggableCard = ({
       layout
       initial={false}
       sx={{
-        background: "white",
+        position: "relative",
+        background: "background.default",
         zIndex: isDragging ? 3 : 1,
         p: padding || 0,
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
         ...cardSx,
+        ...(fullScreen && {
+          position: "fixed",
+          top: 0,
+          left: 0,
+          width: { xs: "100%", md: "100vw" },
+          height: { xs: "100%", md: "100dvh" },
+          zIndex: 1300, // ensure it's above everything
+          justifyContent: "center",
+          alignItems: "center",
+        }),
       }}
+      onClick={onClick}
       animate={{
         gridColumn: `span ${card.column}`,
         gridRow: `span ${card.row}`,
+        ...(fullScreen ? {
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          zIndex: 1300,
+        } : {
+          width: "auto",
+          height: "auto",
+          zIndex: [1, 0]
+        })
       }}
       elevation={0}
       // whileHover={
@@ -114,7 +158,14 @@ const DraggableCard = ({
       //         boxShadow: "0px 5px 5px rgba(0,0,0,0.1)",
       //       }
       // }
-      drag={!turnDragOff}
+      drag={!turnDragOff && !fullScreen}
+      onHoverStart={() => {
+        if (fullScreen) return;
+        setShowTitle(true);
+      }}
+      onHoverEnd={() => {
+        setShowTitle(false)
+      }}
       dragSnapToOrigin
       onDragStart={() => setDragging(true)}
       onDragEnd={() => setDragging(false)}
@@ -122,36 +173,52 @@ const DraggableCard = ({
         isDragging && updateOrder(i, Number(x), Number(y));
       }}
     >
+      {fullScreen && removeFullScreen && <IconButton component={motion.div}
+        sx={{
+          backgroundColor: "background.default",
+          zIndex: 1
+        }}
+        initial={{
+          position: "fixed",
+          right: 20,
+          top: 20
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          removeFullScreen();
+        }}
+      >
+        <TbX />
+      </IconButton>}
       <Stack
         sx={{ height: "100%", width: "100%" }}
         justifyContent="space-between"
       >
-        {card.title && (
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography
-              sx={{
-                fontFeatureSettings: `'liga' off, 'clig' off`,
-                fontSize: 16,
-                fontWeight: 500,
-                letterSpacing: 0.15,
-              }}
-            >
+        {
+          showTitle && <Stack alignItems="center" justifyContent="center" sx={{
+            bgcolor: "rgba(0,0,0,.5)",
+            height: "100%",
+            width: "100%",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 20
+          }}>
+            <Typography variant="h1" sx={{ color: "white" }}>
               {card.title}
             </Typography>
-            {!turnDragOff && (
-              <IconButton>
-                <TbDots />
-              </IconButton>
-            )}
           </Stack>
-        )}
-        {card.content}
+        }
+        <Box sx={{
+          height: fullScreen ? "100dvh" : "100%",
+          maxWidth: fullScreen ? { xs: "100%", md: "100vw" } : "100%",
+          overflowY: fullScreen ? "auto" : "none"
+        }}>
+
+          {card.content}
+        </Box>
       </Stack>
-    </Card>
+    </Card >
   );
 };
 

@@ -21,7 +21,7 @@ Any team would be lucky to have him.`,
   },
   {
     picture: JCG,
-    name: "John Carlos Guevarra",
+    name: "John Carlo Guevarra",
     company: "Servo IT Solutions - OPC",
     position: "Full-Stack Senior Software Developer",
     feedback:

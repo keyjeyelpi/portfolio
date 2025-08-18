@@ -1,11 +1,14 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from "react";
 
-type CardProps<T> = T & { id: string; content: React.ReactNode };
+type CardProps<T> = T & {
+  id: string;
+  content: React.ReactNode | ((isSelected: boolean) => void);
+};
 
 export function arrayMoveMutable<T>(
   array: T[],
   fromIndex: number,
-  toIndex: number,
+  toIndex: number
 ): void {
   const startIndex = fromIndex < 0 ? array.length + fromIndex : fromIndex;
 
@@ -20,7 +23,7 @@ export function arrayMoveMutable<T>(
 export function arrayMoveImmutable<T>(
   array: CardProps<T>[],
   fromIndex: number,
-  toIndex: number,
+  toIndex: number
 ): CardProps<T>[] {
   array = [...array];
   arrayMoveMutable(array, fromIndex, toIndex);
@@ -46,11 +49,11 @@ type UpdatePositionFn = (index: number, offset: Position) => void;
 type UpdateOrderFn = (
   index: number,
   dragXOffset: number,
-  dragYOffset: number,
+  dragYOffset: number
 ) => void;
 
 export function usePositionReorder<T>(
-  initialState: CardProps<T>[],
+  initialState: CardProps<T>[]
 ): [T[], UpdatePositionFn, UpdateOrderFn] {
   const [order, setOrder] = useState<CardProps<T>[]>(initialState);
   const positions = useRef<Position[]>([]).current;
@@ -69,7 +72,7 @@ export function usePositionReorder<T>(
       prevOrder.map((item) => {
         const found = initialState.find((initItem) => initItem.id === item.id);
         return found ? { ...item, content: found.content } : item;
-      }),
+      })
     );
   }, [initialState]);
 
@@ -82,7 +85,7 @@ export const findIndex = (
   i: number,
   xOffset: number,
   yOffset: number,
-  positions: Position[],
+  positions: Position[]
 ): number => {
   let target = i;
   const { top, column, row, left } = positions[i];

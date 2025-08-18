@@ -5,48 +5,50 @@ import DraggableCard, {
 } from "../components/draggable-cards";
 import { usePositionReorder } from "../components/draggable-cards/usePositionReorder";
 import { useBreakpoint } from "../assets/theme";
+import IXORPBookingEngine from "../pages/ixorp";
+import { useEffect, useState } from "react";
 
 const projects = [
   {
     id: "0",
-    title: "Project 1",
-    image: "",
+    title: "IXORP Booking Engine",
     row: 30,
-    content: <img src="" alt="Project 1" />,
+    content: (isSelected: boolean) => <IXORPBookingEngine selected={isSelected} />,
   },
   {
     id: "1",
     title: "Project 2",
     image: "",
     row: 20,
-    content: <img src="" alt="Project 2" />,
+    content: (isSelected: boolean) => <img src="" alt="Project 2" />,
   },
   {
     id: "2",
     title: "Project 3",
     image: "",
     row: 30,
-    content: <img src="" alt="Project 3" />,
+    content: (isSelected: boolean) => <img src="" alt="Project 3" />,
   },
   {
     id: "3",
     title: "Project 4",
     image: "",
     row: 40,
-    content: <img src="" alt="Project 4" />,
+    content: (isSelected: boolean) => <img src="" alt="Project 4" />,
   },
   {
     id: "4",
     title: "Project 5",
     image: "",
     row: 30,
-    content: <img src="" alt="Project 5" />,
+    content: (isSelected: boolean) => <img src="" alt="Project 5" />,
   },
 ];
 
 const Projects = () => {
   const [order, updatePosition, updateOrder] = usePositionReorder(projects);
   const { breakpoint } = useBreakpoint();
+  const [selected, setSelected] = useState<string>();
 
   return (
     <Stack
@@ -86,12 +88,16 @@ const Projects = () => {
               <DraggableCard
                 key={project.id}
                 i={idx}
+                fullScreen={selected === project.id}
                 card={{
                   id: project.id,
-                  content: <img src={project.image} alt={project.title} />,
+                  title: project.title,
+                  content: project.content(selected === project.id),
                   column: breakpoint === "xs" ? 12 : 4,
                   row: breakpoint === "xs" ? 12 : project.row || 4,
                 }}
+                onClick={() => setSelected(project.id)}
+                removeFullScreen={() => setSelected(undefined)}
                 cardSx={{
                   border: "solid 1px",
                   borderColor: "divider",
@@ -109,3 +115,4 @@ const Projects = () => {
 };
 
 export default Projects;
+
