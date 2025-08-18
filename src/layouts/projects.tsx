@@ -6,42 +6,15 @@ import DraggableCard, {
 import { usePositionReorder } from "../components/draggable-cards/usePositionReorder";
 import { useBreakpoint } from "../assets/theme";
 import IXORPBookingEngine from "../pages/ixorp";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { v4 as uuid } from 'uuid';
 
 const projects = [
   {
-    id: "0",
+    id: uuid(),
     title: "IXORP Booking Engine",
     row: 30,
     content: (isSelected: boolean) => <IXORPBookingEngine selected={isSelected} />,
-  },
-  {
-    id: "1",
-    title: "Project 2",
-    image: "",
-    row: 20,
-    content: (isSelected: boolean) => <img src="" alt="Project 2" />,
-  },
-  {
-    id: "2",
-    title: "Project 3",
-    image: "",
-    row: 30,
-    content: (isSelected: boolean) => <img src="" alt="Project 3" />,
-  },
-  {
-    id: "3",
-    title: "Project 4",
-    image: "",
-    row: 40,
-    content: (isSelected: boolean) => <img src="" alt="Project 4" />,
-  },
-  {
-    id: "4",
-    title: "Project 5",
-    image: "",
-    row: 30,
-    content: (isSelected: boolean) => <img src="" alt="Project 5" />,
   },
 ];
 

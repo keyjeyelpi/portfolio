@@ -9,7 +9,7 @@ import {
   Typography,
   type SxProps,
 } from "@mui/material";
-import { TbDots, TbX } from "react-icons/tb";
+import { TbX } from "react-icons/tb";
 
 export interface CardProps {
   id: string;

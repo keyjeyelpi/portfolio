@@ -1,4 +1,4 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Container, Stack, Typography } from "@mui/material";
 import iXORPv3_1 from "../assets/images/projects/iXORP-v3/1.png";
 import iXORPv3_2 from "../assets/images/projects/iXORP-v3/2.png";
 import iXORPv3_3 from "../assets/images/projects/iXORP-v3/3.png";
