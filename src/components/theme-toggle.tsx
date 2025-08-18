@@ -17,22 +17,22 @@ const options: {
   value: "light" | "dark" | "system";
   name: string;
 }[] = [
-  {
-    icon: <TbSun />,
-    value: "light",
-    name: "Light Mode",
-  },
-  {
-    icon: <TbMoon />,
-    value: "dark",
-    name: "Dark Mode",
-  },
-  {
-    icon: <TbContrast />,
-    value: "system",
-    name: "System",
-  },
-];
+    {
+      icon: <TbSun />,
+      value: "light",
+      name: "Light Mode",
+    },
+    {
+      icon: <TbMoon />,
+      value: "dark",
+      name: "Dark Mode",
+    },
+    {
+      icon: <TbContrast />,
+      value: "system",
+      name: "System",
+    },
+  ];
 
 export const ColorPicker = ({
   color,
@@ -197,7 +197,7 @@ const ThemeToggle = () => {
           </Box>
         </Stack>
         <Divider />
-        <Stack>
+        <Stack sx={{ p: 2 }}>
           {options.map((option) => {
             return (
               <MenuItem
@@ -209,6 +209,7 @@ const ThemeToggle = () => {
                 sx={{
                   p: 1,
                   px: 2,
+                  borderRadius: 1,
                   backgroundColor:
                     selected?.value === option.value
                       ? "primary.main"

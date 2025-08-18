@@ -23,7 +23,6 @@ const ImageSlider = ({ images, height = 400, width = "100%", showControl, autoSc
     };
 
     useEffect(() => {
-
         if (!autoScroll) return;
 
         const timeout = setTimeout(handleNext, 5000);
@@ -41,7 +40,7 @@ const ImageSlider = ({ images, height = 400, width = "100%", showControl, autoSc
             }}
         >
             <AnimatePresence mode="wait">
-                <motion.img
+                <Box component={motion.img}
                     key={images[index]}
                     src={images[index]}
                     alt={`slide-${index}`}

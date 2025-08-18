@@ -21,14 +21,14 @@ export const useBreakpoint = () => {
     breakpoint: isXs
       ? "xs"
       : isSm
-      ? "sm"
-      : isMd
-      ? "md"
-      : isLg
-      ? "lg"
-      : isXl
-      ? "xl"
-      : "unknown",
+        ? "sm"
+        : isMd
+          ? "md"
+          : isLg
+            ? "lg"
+            : isXl
+              ? "xl"
+              : "unknown",
     bpOrder: ["xs", "sm", "md", "lg", "xl"],
   };
 };
@@ -161,6 +161,17 @@ const useTheme = (): Theme => {
   const primaryPalette = generatePalette(primary);
   const secondaryPalette = generatePalette(secondary);
   const backgroundPalette = generatePalette("#888888");
+
+  useEffect(() => {
+    const rootElement = document.querySelector(":root") as HTMLElement | null;
+    rootElement?.style.setProperty(
+      "--primary", primary
+    );
+    rootElement?.style.setProperty("--secondary", secondary);
+    rootElement?.style.setProperty("--bg-0", backgroundPalette[0]);
+    rootElement?.style.setProperty("--bg-1", backgroundPalette[1]);
+
+  }, [primary, darkMode])
 
   return createTheme({
     palette: {

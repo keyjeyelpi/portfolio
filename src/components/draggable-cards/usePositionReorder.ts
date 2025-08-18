@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 
 type CardProps<T> = T & {
   id: string;
-  content: React.ReactNode | ((isSelected: boolean) => void);
+  content?: React.ReactNode | ((isSelected: boolean) => void);
 };
 
 export function arrayMoveMutable<T>(
