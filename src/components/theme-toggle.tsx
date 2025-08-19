@@ -11,6 +11,7 @@ import {
 import { TbContrast, TbMoon, TbSun } from "react-icons/tb";
 import useThemeStore from "../store/theme-store";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 const options: {
   icon: any;
@@ -132,6 +133,7 @@ const ThemeToggle = () => {
   const selected = options.find((option) => option.value === mode);
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const [hoverMe, setHoverMe] = useState(true);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -146,6 +148,15 @@ const ThemeToggle = () => {
   return (
     <>
       <IconButton
+        component={motion.button}
+        animate={{
+          scale: hoverMe ? [0.9, 1.1, 0.9] : 1
+        }}
+        transition={{
+          duration: 2,
+          repeat: hoverMe ? Infinity : 0
+        }}
+        onMouseDown={() => setHoverMe(false)}
         sx={{
           backgroundColor: "background.100",
         }}
