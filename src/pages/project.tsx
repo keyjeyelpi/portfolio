@@ -45,6 +45,9 @@ const Project = ({ descriptions, images, role, selected, title, tools }: { descr
                 height={"100%"}
                 width={"100%"}
                 showControl={selected}
+                sx={{
+                    objectFit: selected ? "contain" : "cover"
+                }}
                 autoScroll
             />}
             {!!descriptions?.length && (

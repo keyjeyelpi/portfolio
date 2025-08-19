@@ -18,6 +18,17 @@ import chroma from "chroma-js";
 import { TbMenu2 } from "react-icons/tb";
 import { useState } from "react";
 
+export const handleScrollToSection = (sectionId: string, breakpoint: string) => {
+  const section = document.getElementById(sectionId);
+  if (section) {
+    const offset = breakpoint === "xs" ? 56 : 64;
+    const top = section.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
+  }
+};
+
+
+
 const urls = [
   {
     title: "Services",
@@ -39,15 +50,6 @@ const urls = [
 
 const Navigation = () => {
   const { breakpoint } = useBreakpoint();
-
-  const handleScrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      const offset = breakpoint === "xs" ? 56 : 64;
-      const top = section.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: "smooth" });
-    }
-  };
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
@@ -85,7 +87,7 @@ const Navigation = () => {
                 <Button
                   key={index}
                   variant="text"
-                  onClick={() => handleScrollToSection(url.link)}
+                  onClick={() => handleScrollToSection(url.link, breakpoint)}
                   sx={{ width: 300, justifyContent: "flex-start" }}
                 >
                   {url.title}
@@ -106,7 +108,7 @@ const Navigation = () => {
           key={index}
           variant="text"
           component="a"
-          onClick={() => handleScrollToSection(url.link)}
+          onClick={() => handleScrollToSection(url.link, breakpoint)}
           sx={{
             textDecoration: "none",
             color: "text.primary",

@@ -10,9 +10,9 @@ const servicesIOffer = [
   },
   {
     icon: <TbApi size={36} />,
-    title: "API Design & Integration",
+    title: "System Design & Integration",
     description:
-      "Create secure, scalable REST or GraphQL APIs and integrate with third-party services for seamless data exchange.",
+      "Design scalable system architectures and integrate diverse platforms and technologies to ensure seamless operations and unified performance.",
   },
   {
     icon: <TbDatabase size={36} />,

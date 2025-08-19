@@ -131,7 +131,7 @@ const TechStack = () => {
               >
                 I
               </Typography>{" "}
-              have learned throughout my career
+              have learned
             </Typography>
           </Stack>
           <Grid container spacing={2}>

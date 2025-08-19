@@ -8,6 +8,7 @@ import Experience from "./layouts/experience.tsx";
 import TechStack from "./layouts/tech-stack.tsx";
 import Projects from "./layouts/projects.tsx";
 import Feedback from "./layouts/feedback.tsx";
+import ContactMe from "./layouts/contact-me.tsx";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
       <Experience />
       <TechStack />
       <Feedback />
+      <ContactMe />
     </ThemeProvider>
   );
 };

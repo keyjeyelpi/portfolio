@@ -5,8 +5,13 @@ import arrow from "../assets/images/arrow.png";
 import GradualSpacing from "../components/gradual-text";
 import Typing from "../components/typing-text";
 import Marquee from "../components/marquee";
+import { useBreakpoint } from "../assets/theme";
+import { handleScrollToSection } from "../components/header";
 
 const Hero = () => {
+
+  const { breakpoint } = useBreakpoint();
+
   return (
     <Stack
       id="hero"
@@ -142,6 +147,7 @@ const Hero = () => {
                 variant="outlined"
                 color="secondary"
                 sx={{ borderRadius: 50 }}
+                onClick={() => handleScrollToSection("projects", breakpoint)}
               >
                 View Portfolio
               </Button>

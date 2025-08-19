@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack, type SxProps } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import { TbChevronLeft, TbChevronRight } from "react-icons/tb";
 
@@ -9,9 +9,10 @@ interface ImageSliderProps {
     width?: number | string;
     showControl?: boolean;
     autoScroll?: boolean;
+    sx?: SxProps;
 }
 
-const ImageSlider = ({ images, height = 400, width = "100%", showControl, autoScroll }: ImageSliderProps) => {
+const ImageSlider = ({ images, height = 400, width = "100%", showControl, autoScroll, sx }: ImageSliderProps) => {
     const [index, setIndex] = useState(0);
 
     const handlePrev = () => {
@@ -44,7 +45,7 @@ const ImageSlider = ({ images, height = 400, width = "100%", showControl, autoSc
                     key={images[index]}
                     src={images[index]}
                     alt={`slide-${index}`}
-                    style={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute" }}
+                    sx={{ width: "100%", height: "100%", objectFit: "cover", position: "absolute", ...sx }}
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
