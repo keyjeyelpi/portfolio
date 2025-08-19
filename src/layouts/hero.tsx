@@ -151,7 +151,7 @@ const Hero = () => {
               >
                 View Portfolio
               </Button>
-              <Button variant="contained">Download CV</Button>
+              <Button variant="contained" onClick={() => window.location.href = "https://drive.google.com/file/d/1MDx9e-jYA4pSlo947gZAtwDtrnyWM9hy/view?usp=sharing"}>Download CV</Button>
             </Stack>
           </Stack>
         </Stack>
