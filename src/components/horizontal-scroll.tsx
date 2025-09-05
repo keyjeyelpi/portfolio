@@ -15,6 +15,7 @@ import {
 import { Box } from "@mui/material";
 
 const HorizontalScroll = ({ children }: { children: React.ReactNode }) => {
+  const padding = 160;
   const scrollRef = useRef<HTMLDivElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -26,11 +27,11 @@ const HorizontalScroll = ({ children }: { children: React.ReactNode }) => {
 
   // Measure widths on mount + resize
   useLayoutEffect(() => {
-    function updateRange() {
-      if (scrollRef.current && containerRef.current) {
-        setScrollRange(scrollRef.current.clientWidth + (160 * 2 * 8) + 50);
-        setViewportW(containerRef.current.offsetWidth);
-      }
+    const updateRange = () => {
+      if (!scrollRef.current || !containerRef.current) return;
+
+      setScrollRange(scrollRef.current.offsetWidth + (padding * 17));
+      setViewportW(containerRef.current.offsetWidth);
     }
     updateRange();
     window.addEventListener("resize", updateRange);
@@ -75,7 +76,7 @@ const HorizontalScroll = ({ children }: { children: React.ReactNode }) => {
             width: "fit-content",
             display: "flex",
             alignItems: "center",
-            px: 160,
+            px: padding,
           }}
           style={{ x: spring }}
         >
