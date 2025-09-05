@@ -2,7 +2,7 @@ import { Container, IconButton, Stack, Typography } from "@mui/material";
 import ImageSlider from "../components/image-slider";
 import { TbX } from "react-icons/tb";
 
-const Project = ({ descriptions, images, role, selected, title, tools, setSelected }: { descriptions?: string[]; images?: string[]; role?: string; selected?: boolean; title?: string; tools?: string[]; setSelected?: () => void }) => {
+const Project = ({ key, descriptions, images, role, selected, title, tools, setSelected }: { key?: string; descriptions?: string[]; images?: string[]; role?: string; selected?: boolean; title?: string; tools?: string[]; setSelected?: () => void }) => {
     return (
         <>
             {
@@ -58,8 +58,8 @@ const Project = ({ descriptions, images, role, selected, title, tools, setSelect
                 <Container maxWidth="lg" sx={{ p: { xs: 2, md: 10 } }}>
                     <Stack gap={2}>
                         {
-                            descriptions.map((description) => (
-                                <Typography key="description">
+                            descriptions.map((description, i) => (
+                                <Typography key={"description" + key + i}>
                                     {description}
                                 </Typography>
                             ))

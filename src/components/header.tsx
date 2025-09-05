@@ -133,6 +133,7 @@ const Header = () => {
       position="sticky"
       elevation={0}
       sx={{
+      WebkitPosition: "sticky",
         backgroundColor: chroma(bgColor).alpha(0.33).css(),
         backdropFilter: "blur(16px)",
       }}

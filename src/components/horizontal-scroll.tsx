@@ -25,7 +25,7 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
 
   useLayoutEffect(() => {
     if (scrollRef.current) {
-      setScrollRange(scrollRef.current.scrollWidth + 1000);
+      setScrollRange(scrollRef.current.scrollWidth + window.innerWidth);
     }
   }, [scrollRef]);
 
@@ -65,6 +65,7 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
       <Box
         sx={{
           position: "sticky",
+          WebkitPosition: "sticky",
           top: 0,
           left: 0,
           right: 0,

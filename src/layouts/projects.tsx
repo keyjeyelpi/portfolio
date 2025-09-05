@@ -175,7 +175,7 @@ const Projects = () => {
             const project = projects.find((project) => project.id === selected);
             return project ? (
               <Box
-                key={project.id}
+                key={"selected-" + project.id}
                 component={motion.div}
                 layoutId={project.id}
                 sx={{
@@ -257,7 +257,8 @@ const Projects = () => {
                     breakpoint === "xs"
                       ? "60vh"
                       : "80vh",
-                  aspectRatio: project.aspectRatio.toString(),
+                  width: breakpoint === "xs" ? "75vw" : undefined,
+                  aspectRatio: project.aspectRatio,
                   scrollSnapAlign: "center",
                   flexShrink: 0,
                   borderRadius: 2,
@@ -318,7 +319,7 @@ const Projects = () => {
             ))
           }
         </HorizontalScroll>
-      </Stack>
+      </Stack >
     </>
   );
 };

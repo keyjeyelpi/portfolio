@@ -121,6 +121,7 @@ const Feedback = () => {
             (feedback, index) =>
               currentSelected === index && (
                 <Stack
+                  key={"feedback-" + index}
                   flex={1}
                   alignItems={"center"}
                   component={motion.div}
