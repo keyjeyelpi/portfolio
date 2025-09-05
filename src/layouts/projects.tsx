@@ -1,9 +1,10 @@
-import { useState } from "react";
-import { Container, Stack, Typography } from "@mui/material";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Box, Stack, Typography } from "@mui/material";
+import { AnimatePresence, motion } from "framer-motion";
 import { v4 as uuid } from 'uuid';
+import chroma from "chroma-js";
 
-import { useBreakpoint } from "../assets/theme";
+import { useBreakpoint, useCurrentThemeMode } from "../assets/theme";
 
 import iKeep_1 from "../assets/images/projects/iKeep/1.png";
 import iKeep_2 from "../assets/images/projects/iKeep/2.png";
@@ -33,16 +34,14 @@ import xeniaCloud_5 from "../assets/images/projects/xenia-cloud/5.png";
 import xeniaCloud_6 from "../assets/images/projects/xenia-cloud/6.png";
 import xeniaCloud_7 from "../assets/images/projects/xenia-cloud/7.png";
 
-import DraggableCard, {
-  DraggableCardContainer,
-} from "../components/draggable-cards";
-import { usePositionReorder } from "../components/draggable-cards/usePositionReorder";
 
 import Project from "../pages/project";
+import HorizontalScroll from "../components/horizontal-scroll";
 
 const projects = [
   {
     id: uuid(),
+    aspectRatio: 16 / 9,
     title: "IXORP Booking Engine",
     images: [
       iXORPv3_1,
@@ -65,10 +64,10 @@ const projects = [
       "MySQL"
     ],
     role: "System Developer",
-    row: 10,
   },
   {
     id: uuid(),
+    aspectRatio: 16 / 9,
     title: "Xenia Cloud",
     images: [
       xeniaCloud_1,
@@ -91,10 +90,10 @@ const projects = [
       "MySQL"
     ],
     role: "System Developer",
-    row: 12,
   },
   {
     id: uuid(),
+    aspectRatio: 16 / 9,
     title: "Hospitality TV",
     images: [
     ],
@@ -109,10 +108,10 @@ const projects = [
       "MySQL"
     ],
     role: "System Developer",
-    row: 7,
   },
   {
     id: uuid(),
+    aspectRatio: 16 / 9,
     title: "Sales Portal",
     images: [
       salesPortal_1,
@@ -129,10 +128,10 @@ const projects = [
       "MySQL"
     ],
     role: "System Developer",
-    row: 10,
   },
   {
     id: uuid(),
+    aspectRatio: "9 / 16",
     title: "iKeep v2",
     images: [
       iKeep_1,
@@ -151,84 +150,176 @@ const projects = [
       "Figma"
     ],
     role: "UI/UX Designer",
-    row: 10,
   },
-
 ];
 
 const Projects = () => {
-  const [order, updatePosition, updateOrder] = usePositionReorder(projects);
   const { breakpoint } = useBreakpoint();
+  const { bgColor } = useCurrentThemeMode();
   const [selected, setSelected] = useState<string>();
 
+  useEffect(() => {
+    if (!selected) {
+      document.body.style.overflowY = "auto";
+      return;
+    }
+
+    document.body.style.overflowY = "hidden";
+  }, [selected])
+
   return (
-    <Stack
-      id="projects"
-      component={motion.div}
-      initial={{ opacity: 0, y: -100 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 2 }}
-      justifyContent="center"
-      alignItems="center"
-      sx={{
-        pt: 10,
-        width: "100%",
-        minHeight: { xs: "calc(100dvh - 57px)", md: "calc(100dvh - 65px)" },
-      }}
-    >
-      <Container maxWidth="xl">
-        <Stack gap={2}>
-          <Stack alignItems="center" gap={1}>
-            <Typography fontSize={24}>Latest Projects</Typography>
-            <Typography
-              fontSize={48}
-              fontWeight={800}
-              textTransform="uppercase"
-              color="secondary"
-              sx={{
-                textAlign: "center",
-                lineHeight: 1.2,
-              }}
-            >
-              Take a look at my latest works
-            </Typography>
-          </Stack>
-          <DraggableCardContainer gap={2} row={20} column={12}>
-            {order.map((project, idx) => (
-              <DraggableCard
+    <>
+      <AnimatePresence initial={false} mode="wait">
+        {
+          selected && (() => {
+            const project = projects.find((project) => project.id === selected);
+            return project ? (
+              <Box
                 key={project.id}
-                i={idx}
-                fullScreen={selected === project.id}
-                card={{
-                  id: project.id,
-                  title: project.title,
-                  content: <Project
-                    images={project.images}
-                    descriptions={project.descriptions}
-                    tools={project.tools}
-                    role={project.role}
-                    selected={selected === project.id}
-                    title={project.title}
-                  />,
-                  column: breakpoint === "xs" ? 12 : 4,
-                  row: breakpoint === "xs" ? 12 : project.row || 4,
-                }}
-                onClick={() => setSelected(project.id)}
-                removeFullScreen={() => setSelected(undefined)}
-                cardSx={{
-                  border: "solid 1px",
-                  borderColor: "divider",
+                component={motion.div}
+                layoutId={project.id}
+                sx={{
+                  height: "100dvh",
+                  width: "100vw",
+                  position: "fixed",
+                  top: 0,
+                  left: 0,
+                  backgroundColor: "background.default",
                   borderRadius: 2,
+                  border: "solid 1px",
+                  borderColor: "background.100",
+                  overflow: "auto",
                 }}
-                updatePosition={updatePosition}
-                updateOrder={updateOrder}
-              />
-            ))}
-          </DraggableCardContainer>
+                initial={{
+                  zIndex: 0,
+                }}
+                animate={{
+                  zIndex: 9999,
+                }}
+              >
+                <Project
+                  title={project.title}
+                  images={project.images}
+                  descriptions={project.descriptions}
+                  tools={project.tools}
+                  role={project.role}
+                  selected
+                  setSelected={() => setSelected("")}
+                />
+              </Box>
+            ) : null;
+          })()
+        }
+      </AnimatePresence>
+      <Stack
+        id="projects"
+        component={motion.div}
+        initial={{ opacity: 0, y: -100 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 2 }}
+        sx={{
+          pt: 10,
+          width: "100%",
+          maxWidth: "100vw",
+          minHeight: { xs: "calc(100dvh - 57px)", md: "calc(100dvh - 65px)" },
+        }}
+      >
+        <Stack
+          justifyContent="center"
+          alignItems="center"
+          gap={1}>
+          <Typography fontSize={24}>Latest Projects</Typography>
+          <Typography
+            fontSize={48}
+            fontWeight={800}
+            textTransform="uppercase"
+            color="secondary"
+            sx={{
+              textAlign: "center",
+              lineHeight: 1.2,
+            }}
+          >
+            Take a look at my latest works
+          </Typography>
         </Stack>
-      </Container>
-    </Stack>
+        <HorizontalScroll>
+          {
+            projects.map((project) => (
+              <Box
+                key={project.id}
+                component={motion.div}
+                layoutId={project.id}
+                onClick={() => setSelected(project.id)}
+                sx={{
+                  position: "relative",
+                  height:
+                    breakpoint === "xs"
+                      ? "60vh"
+                      : "80vh",
+                  aspectRatio: project.aspectRatio.toString(),
+                  scrollSnapAlign: "center",
+                  flexShrink: 0,
+                  borderRadius: 2,
+                  border: "solid 1px",
+                  borderColor: "background.100",
+                  backgroundColor: "background.100",
+                  overflow: "hidden",
+                  cursor: "pointer",
+                  mr: 1,
+                  "&:hover #project-overlay": {
+                    backdropFilter: "blur(8px)",
+                    bgcolor: chroma(bgColor).alpha(0.6).css(),
+                  },
+                  "&:hover #project-container": {
+                    transform: "scale(1.2)",
+                  },
+                  "&:hover #project-title": {
+                    opacity: 1,
+                    transform: "translateY(0)",
+                  },
+                }}
+              >
+                <Box id="project-title" sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  p: 2,
+                  zIndex: 2,
+                  transform: "translateY(-100%)",
+                  transition: "transform 0.5s",
+                }}>
+                  <Typography variant="h4" fontWeight={600}>
+                    {project.title}
+                  </Typography>
+                </Box>
+                <Box id="project-overlay" sx={[{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  height: "100%",
+                  width: "100%",
+                  zIndex: 1,
+                  transition: "backdrop-filter 1s, background-color 1s",
+                  bgcolor: chroma(bgColor).alpha(0.2).css(),
+                  backdropFilter: "blur(0px)",
+                }]} />
+
+                <Box
+                  sx={{
+                    all: "unset",
+                  }}
+                  id="project-container"
+                >
+                  <Project
+                    {...project} />
+                </Box>
+              </Box>
+            ))
+          }
+        </HorizontalScroll>
+      </Stack>
+    </>
   );
 };
 

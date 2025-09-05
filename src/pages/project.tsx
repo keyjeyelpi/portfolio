@@ -1,16 +1,20 @@
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, IconButton, Stack, Typography } from "@mui/material";
 import ImageSlider from "../components/image-slider";
+import { TbX } from "react-icons/tb";
 
-const Project = ({ descriptions, images, role, selected, title, tools }: { descriptions?: string[]; images?: string[]; role?: string; selected: boolean; title?: string; tools?: string[] }) => {
+const Project = ({ descriptions, images, role, selected, title, tools, setSelected }: { descriptions?: string[]; images?: string[]; role?: string; selected?: boolean; title?: string; tools?: string[]; setSelected?: () => void }) => {
     return (
         <>
             {
-                selected &&
+                !!selected &&
                 <>
-                    {!!title && <Stack justifyContent="center" sx={{ p: 4, width: "100%", bgcolor: "background.100" }}>
+                    {!!title && <Stack flexDirection="row" justifyContent="space-between" alignItems="center" sx={{ p: 4, width: "100%", bgcolor: "background.50" }}>
                         <Typography variant="h5">
                             {title}
                         </Typography>
+                        {setSelected && <IconButton onClick={setSelected}>
+                            <TbX />
+                        </IconButton>}
                     </Stack>}
                     <Container maxWidth="lg" sx={{ p: { xs: 2, md: 10 } }}>
                         <Stack justifyContent="space-between" direction="row">
