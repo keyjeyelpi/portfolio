@@ -2,56 +2,51 @@ import React, {
   useRef,
   useState,
   useLayoutEffect,
-  useCallback,
   useEffect,
 } from "react";
-import ResizeObserver from "resize-observer-polyfill";
 import {
   motion,
   useScroll,
   useTransform,
   useSpring,
   useMotionValue,
+  MotionValue,
 } from "framer-motion";
-import Box from "@mui/material/Box";
+import { Box } from "@mui/material";
 
-const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
-  const scrollRef = useRef<HTMLDivElement | null>(null);
-  const ghostRef = useRef<HTMLDivElement | null>(null);
+const HorizontalScroll = ({ children }: { children: React.ReactNode }) => {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const ghostRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const [scrollRange, setScrollRange] = useState(0);
   const [viewportW, setViewportW] = useState(0);
 
-  const scrollPerc = useMotionValue(0);
+  const scrollPerc: MotionValue<number> = useMotionValue(0);
 
+  // Measure widths on mount + resize
   useLayoutEffect(() => {
-    if (scrollRef.current) {
-      setScrollRange(scrollRef.current.scrollWidth + window.innerWidth);
+    function updateRange() {
+      if (scrollRef.current && containerRef.current) {
+        setScrollRange(scrollRef.current.clientWidth + (160 * 2 * 8) + 50);
+        setViewportW(containerRef.current.offsetWidth);
+      }
     }
-  }, [scrollRef]);
-
-  const onResize = useCallback((entries: ResizeObserverEntry[]) => {
-    for (let entry of entries) {
-      setViewportW(entry.contentRect.width);
-    }
+    updateRange();
+    window.addEventListener("resize", updateRange);
+    return () => window.removeEventListener("resize", updateRange);
   }, []);
 
-  useLayoutEffect(() => {
-    const resizeObserver = new ResizeObserver((entries) => onResize(entries));
-    if (ghostRef.current) resizeObserver.observe(ghostRef.current);
-    return () => resizeObserver.disconnect();
-  }, [onResize]);
-
-  // Replace old useViewportScroll with new useScroll in framer v12
+  // Use page scroll progress (fixes mobile)
   const { scrollYProgress } = useScroll();
 
-  // Update scroll percentage manually
   useEffect(() => {
-    const unsub = scrollYProgress.on("change", (v) => {
+    return scrollYProgress.on("change", (v) => {
       scrollPerc.set(v);
     });
-    return () => unsub();
   }, [scrollYProgress, scrollPerc]);
 
+  // Translate horizontal scroll based on vertical scroll
   const transform = useTransform(
     scrollPerc,
     [0, 1],
@@ -61,41 +56,32 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   const spring = useSpring(transform, physics);
 
   return (
-    <Box>
+    <Box ref={containerRef} id="horizontal-scroll">
       <Box
         sx={{
           position: "sticky",
-          WebkitPosition: "sticky",
           top: 0,
           left: 0,
           right: 0,
-          willChange: "transform",
+          height: "100vh",
+          overflow: "hidden",
         }}
       >
-
         <Box
-          component={motion.section}
+          component={motion.div}
           ref={scrollRef}
           sx={{
             height: "100vh",
-            width: "max-content",
+            width: "fit-content",
             display: "flex",
             alignItems: "center",
             px: 160,
           }}
           style={{ x: spring }}
         >
-          {/* Thumbnails */}
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
-            {children}
-          </Box>
+          <Box sx={{ display: "flex" }}>{children}</Box>
         </Box>
       </Box>
-
       <Box
         ref={ghostRef}
         sx={{
@@ -107,4 +93,4 @@ const SmoothScroll = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default SmoothScroll;
+export default HorizontalScroll;

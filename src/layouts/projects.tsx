@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { v4 as uuid } from 'uuid';
 import chroma from "chroma-js";
 
-import { useBreakpoint, useCurrentThemeMode } from "../assets/theme";
+import { useCurrentThemeMode } from "../assets/theme";
 
 import iKeep_1 from "../assets/images/projects/iKeep/1.png";
 import iKeep_2 from "../assets/images/projects/iKeep/2.png";
@@ -154,7 +154,6 @@ const projects = [
 ];
 
 const Projects = () => {
-  const { breakpoint } = useBreakpoint();
   const { bgColor } = useCurrentThemeMode();
   const [selected, setSelected] = useState<string>();
 
@@ -253,11 +252,7 @@ const Projects = () => {
                 onClick={() => setSelected(project.id)}
                 sx={{
                   position: "relative",
-                  height:
-                    breakpoint === "xs"
-                      ? "60vh"
-                      : "80vh",
-                  width: breakpoint === "xs" ? "75vw" : undefined,
+                  height: "80vh",
                   aspectRatio: project.aspectRatio,
                   scrollSnapAlign: "center",
                   flexShrink: 0,
@@ -267,7 +262,7 @@ const Projects = () => {
                   backgroundColor: "background.100",
                   overflow: "hidden",
                   cursor: "pointer",
-                  mr: 1,
+                  m: 1,
                   "&:hover #project-overlay": {
                     backdropFilter: "blur(8px)",
                     bgcolor: chroma(bgColor).alpha(0.6).css(),
