@@ -22,8 +22,8 @@ export const getSystemTheme = (): "light" | "dark" => {
 const useThemeStore = create<ThemeState>((set) => ({
   mode: "system",
   resolvedMode: "light",
-  primary: "#2962FF",
-  secondary: "#00BFA5",
+  primary: "#0D3B66",
+  secondary: "#FF7F50",
   setMode: (mode) =>
     set({
       mode,
