@@ -6,6 +6,12 @@ import chroma from "chroma-js";
 
 import { useCurrentThemeMode } from "../assets/theme";
 
+import DashboardDark_1 from "../assets/images/projects/dashboard/d1.png";
+import DashboardDark_2 from "../assets/images/projects/dashboard/d2.jpeg";
+import DashboardLight_1 from "../assets/images/projects/dashboard/l1.jpeg";
+import DashboardLight_2 from "../assets/images/projects/dashboard/l2.png";
+
+
 import iKeep_1 from "../assets/images/projects/iKeep/1.png";
 import iKeep_2 from "../assets/images/projects/iKeep/2.png";
 import iKeep_3 from "../assets/images/projects/iKeep/3.png";
@@ -39,6 +45,31 @@ import Project from "../pages/project";
 import HorizontalScroll from "../components/horizontal-scroll";
 
 const projects = [
+  {
+    id: uuid(),
+    aspectRatio: 16 / 9,
+    title: "React Dashboard",
+    images: [
+      DashboardLight_1,
+      DashboardLight_2,
+    ],
+    imagesDark: [
+      DashboardDark_1,
+      DashboardDark_2,
+    ],
+    descriptions: [
+      "A modern, responsive dashboard template built with React and Material UI, featuring both light and dark modes. This dashboard offers a clean and intuitive interface for managing data and visualizations, making it easy to monitor key metrics and performance indicators. With its customizable components and layouts, users can tailor the dashboard to fit their specific needs, whether for business analytics, project management, or personal productivity.",
+    ],
+    url: "https://keyjeyelpi.github.io/react-admin/",
+    tools: [
+      "React",
+      "Framer Motion",
+      "Material UI",
+      "Node JS",
+      "MySQL"
+    ],
+    role: "System Developer",
+  },
   {
     id: uuid(),
     aspectRatio: 16 / 9,
@@ -154,6 +185,7 @@ const projects = [
 ];
 
 const Projects = () => {
+  const { darkMode } = useCurrentThemeMode();
   const { bgColor } = useCurrentThemeMode();
   const [selected, setSelected] = useState<string>();
 
@@ -198,7 +230,7 @@ const Projects = () => {
               >
                 <Project
                   title={project.title}
-                  images={project.images}
+                  images={darkMode ? project.imagesDark || project.images : project.images}
                   descriptions={project.descriptions}
                   tools={project.tools}
                   role={project.role}
@@ -249,7 +281,7 @@ const Projects = () => {
                 key={project.id}
                 component={motion.div}
                 layoutId={project.id}
-                onClick={() => setSelected(project.id)}
+                onClick={() => project?.url ? window.location.href = project.url : setSelected(project.id)}
                 sx={{
                   position: "relative",
                   height: "80vh",
@@ -308,7 +340,9 @@ const Projects = () => {
                   id="project-container"
                 >
                   <Project
-                    {...project} />
+                    {...project}
+                    images={darkMode ? project.imagesDark || project.images : project.images}
+                  />
                 </Box>
               </Box>
             ))
