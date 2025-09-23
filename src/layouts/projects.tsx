@@ -8,8 +8,10 @@ import { useCurrentThemeMode } from "../assets/theme";
 
 import DashboardDark_1 from "../assets/images/projects/dashboard/d1.png";
 import DashboardDark_2 from "../assets/images/projects/dashboard/d2.jpeg";
-import DashboardLight_1 from "../assets/images/projects/dashboard/l1.jpeg";
-import DashboardLight_2 from "../assets/images/projects/dashboard/l2.png";
+import DashboardDark_3 from "../assets/images/projects/dashboard/d3.jpeg";
+import DashboardLight_1 from "../assets/images/projects/dashboard/l1.png";
+import DashboardLight_2 from "../assets/images/projects/dashboard/l2.jpeg";
+import DashboardLight_3 from "../assets/images/projects/dashboard/l3.jpeg";
 
 
 import iKeep_1 from "../assets/images/projects/iKeep/1.png";
@@ -52,10 +54,12 @@ const projects = [
     images: [
       DashboardLight_1,
       DashboardLight_2,
+      DashboardLight_3
     ],
     imagesDark: [
       DashboardDark_1,
       DashboardDark_2,
+      DashboardDark_3
     ],
     descriptions: [
       "A modern, responsive dashboard template built with React and Material UI, featuring both light and dark modes. This dashboard offers a clean and intuitive interface for managing data and visualizations, making it easy to monitor key metrics and performance indicators. With its customizable components and layouts, users can tailor the dashboard to fit their specific needs, whether for business analytics, project management, or personal productivity.",
